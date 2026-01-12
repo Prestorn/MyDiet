@@ -1,7 +1,6 @@
 package com.example.mydiet.presentation.ui
 
-import android.widget.Spinner
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,22 +12,24 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -43,7 +44,7 @@ fun BaseListItem(
     text: String,
     editable: Boolean,
     deletable: Boolean,
-    onEdit: (String) -> Unit,
+    onEdit: (String, String) -> Unit,
     onDelete: () -> Unit,
     labelText: String,
     hasStatus: Boolean = false,
@@ -52,6 +53,7 @@ fun BaseListItem(
 ) {
     var readOnlyState by remember { mutableStateOf(readOnlyStateInitial) }
     val textState = rememberTextFieldState(text)
+    val statusState = remember { mutableStateOf(status) }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -61,16 +63,16 @@ fun BaseListItem(
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
-        Column {
-            Row (
-                verticalAlignment = Alignment.CenterVertically
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column (
+                modifier = Modifier.weight(1f)
             ) {
                 OutlinedTextField(
                     modifier = Modifier
-                        .weight(1f)
                         .padding(
-                            top = if (readOnlyState) 5.dp else 12.dp,
-                            bottom = 5.dp
+                            top = if (readOnlyState) 5.dp else 12.dp
                         ),
                     state = textState,
                     readOnly = readOnlyState,
@@ -94,54 +96,116 @@ fun BaseListItem(
                         start = 10.dp
                     )
                 )
-                if (editable) {
-                    IconButton(
-                        modifier = Modifier
-                            .padding(end = 10.dp),
-                        onClick = {  }
-                    ) {
-                        Icon(
-                            painter = painterResource(
-                                if (readOnlyState) R.drawable.ic_edit else R.drawable.ic_check
-                            ),
-                            contentDescription = "Edit icon",
-                            modifier = Modifier
-                                .width(40.dp)
-                                .height(40.dp)
-                        )
-                    }
-                }
-                if (deletable) {
-                    IconButton(
-                        modifier = Modifier.padding(end = 10.dp),
-                        onClick = {  }
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_delete),
-                            contentDescription = "Delete icon",
-                            modifier = Modifier
-                                .width(40.dp)
-                                .height(40.dp)
-                        )
-                    }
+
+                if (hasStatus) {
+                    Dropdown(
+                        readOnlyState = readOnlyState,
+                        statusState = statusState
+                    )
                 }
             }
-            if (hasStatus) {
-                // Выпадающий список
+
+            if (editable) {
+                IconButton(
+                    modifier = Modifier
+                        .padding(end = 10.dp),
+                    onClick = { }
+                ) {
+                    Icon(
+                        painter = painterResource(
+                            if (readOnlyState) R.drawable.ic_edit else R.drawable.ic_check
+                        ),
+                        contentDescription = "Edit icon",
+                        modifier = Modifier
+                            .width(40.dp)
+                            .height(40.dp)
+                    )
+                }
+            }
+            if (deletable) {
+                IconButton(
+                    modifier = Modifier.padding(end = 10.dp),
+                    onClick = { }
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_delete),
+                        contentDescription = "Delete icon",
+                        modifier = Modifier
+                            .width(40.dp)
+                            .height(40.dp)
+                    )
+                }
             }
         }
 
+    }
+
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Dropdown(
+    readOnlyState: Boolean,
+    statusState: MutableState<String>
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val statuses = listOf("Разрешено", "Под вопросом", "Запрещено")
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = it && !readOnlyState },
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .menuAnchor(
+                    type = ExposedDropdownMenuAnchorType.PrimaryEditable,
+                    enabled = !readOnlyState
+                )
+                .fillMaxWidth()
+                .clickable(
+                    onClick = { expanded = !expanded && !readOnlyState },
+                    enabled = !readOnlyState
+                )
+                .padding(start = 10.dp, bottom = 5.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = statusState.value,
+                fontSize = 16.sp
+            )
+            if (!readOnlyState) {
+                Spacer(modifier = Modifier.width(10.dp))
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = false)
+            }
+        }
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            statuses.forEach { status ->
+                DropdownMenuItem(
+                    text = { Text(status) },
+                    onClick = {
+                        statusState.value = status
+                        expanded = false
+                    },
+                    enabled = !readOnlyState
+                )
+            }
+        }
     }
 }
 
 @Composable
 @Preview(showBackground = true, backgroundColor = 0xFF00103A)
-fun BaseListItemPreview() {
+fun BaseListItemPreviewBase() {
     BaseListItem(
         text = "Test",
         editable = true,
         deletable = true,
-        onEdit = {},
+        onEdit = { _, _ -> },
         onDelete = {},
         labelText = "Label",
         readOnlyStateInitial = true
@@ -150,12 +214,12 @@ fun BaseListItemPreview() {
 
 @Composable
 @Preview(showBackground = true, backgroundColor = 0xFF00103A)
-fun BaseListItemPreview2() {
+fun BaseListItemPreviewOnEdit() {
     BaseListItem(
         text = "Test",
         editable = true,
         deletable = true,
-        onEdit = {},
+        onEdit = { _, _ -> },
         onDelete = {},
         labelText = "Label",
         readOnlyStateInitial = false
@@ -164,16 +228,32 @@ fun BaseListItemPreview2() {
 
 @Composable
 @Preview(showBackground = true, backgroundColor = 0xFF00103A)
-fun BaseListItemPreview3() {
+fun BaseListItemPreviewBaseWithStatus() {
     BaseListItem(
         text = "Test",
         editable = true,
         deletable = true,
-        onEdit = {},
+        onEdit = { _, _ -> },
         onDelete = {},
         labelText = "Label",
         hasStatus = true,
         status = "Status",
         readOnlyStateInitial = true
+    )
+}
+
+@Composable
+@Preview(showBackground = true, backgroundColor = 0xFF00103A)
+fun BaseListItemPreviewWithStatusOnEdit() {
+    BaseListItem(
+        text = "Test",
+        editable = true,
+        deletable = true,
+        onEdit = { _, _ -> },
+        onDelete = {},
+        labelText = "Label",
+        hasStatus = true,
+        status = "Status",
+        readOnlyStateInitial = false
     )
 }
