@@ -6,6 +6,7 @@ import com.example.data.storage.dao.ProductInDietDao
 import com.example.data.storage.entities.ProductInDiet
 import com.example.domain.repositories.ProductRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import com.example.data.storage.entities.Product as DataProduct
@@ -29,7 +30,7 @@ class ProductRepositoryImpl(
     }
 
     override suspend fun create(product: DomainProduct) {
-        val diets = dietDao.getAll().toList()
+        val diets = dietDao.getAll().first()
         productDao.insert(product.toData())
         diets.forEach { diet ->
             if (diet.id == product.dietId) {
