@@ -5,5 +5,5 @@ import com.example.domain.repositories.DietRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetAllDietsUseCase(private val dietRepository: DietRepository) {
-    operator fun invoke(): Flow<Diet> = dietRepository.getAll()
+    operator fun invoke(): Flow<List<Diet>> = dietRepository.getAll()
 }

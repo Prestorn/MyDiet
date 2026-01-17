@@ -10,8 +10,8 @@ import com.example.domain.models.Diet as DomainDiet
 class DietRepositoryImpl(
     private val dietDao: DietDao
 ) : DietRepository {
-    override fun getAll(): Flow<DomainDiet> {
-        return dietDao.getAll().map { it.toDomain() }
+    override fun getAll(): Flow<List<DomainDiet>> {
+        return dietDao.getAll().map { list -> list.map { it.toDomain() } }
     }
 
     override suspend fun create(diet: DomainDiet) {

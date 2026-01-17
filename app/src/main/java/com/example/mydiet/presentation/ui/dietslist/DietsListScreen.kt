@@ -15,12 +15,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mydiet.R
 import com.example.mydiet.presentation.models.Diet
 import com.example.mydiet.presentation.ui.BaseListItem
@@ -32,7 +36,19 @@ fun DietsListScreenControll(
     viewModel: DietsListViewModel,
     onListItemClick: (Int) -> Unit
 ) {
-
+    val diets by viewModel.diets.collectAsStateWithLifecycle(
+        initialValue = TODO(),
+        lifecycle = TODO(),
+        minActiveState = TODO(),
+        context = TODO()
+    )
+    DietsListScreen(
+        listItems = TODO(),
+        onListItemClick = TODO(),
+        onEdit = TODO(),
+        onDelete = TODO(),
+        onAddDiet = TODO()
+    )
 }
 
 @Composable
@@ -40,7 +56,8 @@ fun DietsListScreen(
     listItems: List<Diet>,
     onListItemClick: (Int) -> Unit,
     onEdit: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    onAddDiet: () -> Unit
 ) {
     Scaffold(
         containerColor = Background
@@ -69,9 +86,7 @@ fun DietsListScreen(
                 }
             }
             IconButton(
-                onClick = {
-                    TODO()
-                },
+                onClick = { onAddDiet() },
                 modifier = Modifier
                     .clip(CircleShape)
                     .background(ListItemBackground)
@@ -104,7 +119,7 @@ fun DietsListScreenPreview() {
     )
     DietsListScreen(
         listItems = listItems,
-        onListItemClick = {}, onEdit = {}, onDelete = {}
+        onListItemClick = {}, onEdit = {}, onDelete = {}, onAddDiet = {}
     )
 }
 
@@ -124,7 +139,7 @@ fun DietListItem(
             text = diet.name,
             editable = true,
             deletable = true,
-            onEdit = {
+            onEdit = {_, _ ->
                 TODO()
             },
             onDelete = {

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface DietDao {
 
     @Query("SELECT * FROM diets")
-    fun getAll(): Flow<Diet>
+    fun getAll(): Flow<List<Diet>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(diet: Diet): Long
