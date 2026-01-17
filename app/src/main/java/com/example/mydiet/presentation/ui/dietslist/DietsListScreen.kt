@@ -15,7 +15,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,7 +22,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mydiet.R
 import com.example.mydiet.presentation.models.Diet
@@ -34,29 +32,26 @@ import com.example.mydiet.presentation.ui.theme.ListItemBackground
 @Composable
 fun DietsListScreenControll(
     viewModel: DietsListViewModel,
-    onListItemClick: (Int) -> Unit
+    onListItemClick: (Long) -> Unit
 ) {
     val diets by viewModel.diets.collectAsStateWithLifecycle(
-        initialValue = TODO(),
-        lifecycle = TODO(),
-        minActiveState = TODO(),
-        context = TODO()
+        initialValue = emptyList()
     )
     DietsListScreen(
-        listItems = TODO(),
-        onListItemClick = TODO(),
-        onEdit = TODO(),
-        onDelete = TODO(),
-        onAddDiet = TODO()
+        listItems = diets,
+        onListItemClick = onListItemClick,
+        onListItemEdit = { diet -> viewModel.renameDiet(diet) },
+        onListItemDelete = {diet -> viewModel.deleteDiet(diet) },
+        onAddDiet = { viewModel.createDiet() }
     )
 }
 
 @Composable
 fun DietsListScreen(
     listItems: List<Diet>,
-    onListItemClick: (Int) -> Unit,
-    onEdit: () -> Unit,
-    onDelete: () -> Unit,
+    onListItemClick: (Long) -> Unit,
+    onListItemEdit: (Diet) -> Unit,
+    onListItemDelete: (Diet) -> Unit,
     onAddDiet: () -> Unit
 ) {
     Scaffold(
@@ -82,7 +77,12 @@ fun DietsListScreen(
                     )
             ) {
                 items(items = listItems, key = { it.id }) {
-                    DietListItem(diet = it, onClick = {})
+                    DietListItem(
+                        diet = it,
+                        onListItemClick = onListItemClick,
+                        onListItemEdit = onListItemEdit,
+                        onListItemDelete = onListItemDelete
+                    )
                 }
             }
             IconButton(
@@ -105,6 +105,35 @@ fun DietsListScreen(
 }
 
 @Composable
+fun DietListItem(
+    diet: Diet,
+    onListItemClick: (Long) -> Unit,
+    onListItemEdit: (Diet) -> Unit,
+    onListItemDelete: (Diet) -> Unit
+) {
+    Box(
+        modifier = Modifier.clickable(
+            onClick = {
+                onListItemClick(diet.id)
+            },
+        )
+    ) {
+        BaseListItem(
+            text = diet.name,
+            editable = true,
+            deletable = true,
+            onEdit = { name, _ ->
+                onListItemEdit(diet.copy(name = name))
+            },
+            onDelete = {
+                onListItemDelete(diet)
+            },
+            labelText = "Название диеты"
+        )
+    }
+}
+
+@Composable
 @Preview(
     showBackground = true,
     showSystemUi = true
@@ -119,35 +148,8 @@ fun DietsListScreenPreview() {
     )
     DietsListScreen(
         listItems = listItems,
-        onListItemClick = {}, onEdit = {}, onDelete = {}, onAddDiet = {}
+        onListItemClick = {}, onListItemEdit = {}, onListItemDelete = {}, onAddDiet = {}
     )
-}
-
-@Composable
-fun DietListItem(
-    diet: Diet,
-    onClick: (Long) -> Unit
-) {
-    Box(
-        modifier = Modifier.clickable(
-            onClick = {
-                onClick(diet.id)
-            },
-        )
-    ) {
-        BaseListItem(
-            text = diet.name,
-            editable = true,
-            deletable = true,
-            onEdit = {_, _ ->
-                TODO()
-            },
-            onDelete = {
-                TODO()
-            },
-            labelText = "Название диеты"
-        )
-    }
 }
 
 @Composable
@@ -155,6 +157,8 @@ fun DietListItem(
 fun DietListItemPreview() {
     DietListItem(
         diet = Diet(1, "Low fodmap"),
-        onClick = {}
+        onListItemClick = {},
+        onListItemEdit = {},
+        onListItemDelete = {}
     )
 }
