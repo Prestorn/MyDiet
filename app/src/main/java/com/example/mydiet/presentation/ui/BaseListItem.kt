@@ -111,7 +111,12 @@ fun BaseListItem(
                 IconButton(
                     modifier = Modifier
                         .padding(end = 10.dp),
-                    onClick = { }
+                    onClick = {
+                        if (!readOnlyState)  {
+                            onEdit(textState.text.toString(), statusState.value)
+                        }
+                        readOnlyState = !readOnlyState
+                    }
                 ) {
                     Icon(
                         painter = painterResource(
@@ -127,7 +132,7 @@ fun BaseListItem(
             if (deletable) {
                 IconButton(
                     modifier = Modifier.padding(end = 10.dp),
-                    onClick = { }
+                    onClick = { onDelete() }
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_delete),
