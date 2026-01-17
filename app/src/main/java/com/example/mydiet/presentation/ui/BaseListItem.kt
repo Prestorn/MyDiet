@@ -47,6 +47,7 @@ fun BaseListItem(
     deletable: Boolean = false,
     onEdit: (String, String) -> Unit = { _, _ -> },
     onDelete: () -> Unit = {},
+    onClick: () -> Unit = {},
     hasStatus: Boolean = false,
     status: String = "",
     readOnlyStateInitial: Boolean = true
@@ -57,7 +58,8 @@ fun BaseListItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 5.dp),
+            .padding(vertical = 5.dp)
+            .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(
             containerColor = ListItemBackground
         ),
