@@ -10,6 +10,7 @@ import com.example.mydiet.presentation.mappers.toDomain
 import com.example.mydiet.presentation.mappers.toPresentation
 import com.example.mydiet.presentation.models.Diet
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -19,7 +20,7 @@ class DietsListViewModel(
     private val deleteDietUseCase: DeleteDietUseCase,
     private val renameDietUseCase: RenameDietUseCase
 ) : ViewModel() {
-    val diets = getAllDietsUseCase().map { it.toPresentation() }
+    val diets: Flow<List<Diet>> = getAllDietsUseCase().map { list -> list.map { it.toPresentation() } }
 
     fun createDiet() {
         viewModelScope.launch(Dispatchers.IO) {
