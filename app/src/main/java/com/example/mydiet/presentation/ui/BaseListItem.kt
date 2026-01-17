@@ -42,11 +42,11 @@ import com.example.mydiet.presentation.ui.theme.ListItemBackground
 @Composable
 fun BaseListItem(
     text: String,
-    editable: Boolean,
-    deletable: Boolean,
-    onEdit: (String, String) -> Unit,
-    onDelete: () -> Unit,
     labelText: String,
+    editable: Boolean = false,
+    deletable: Boolean = false,
+    onEdit: (String, String) -> Unit = { _, _ -> },
+    onDelete: () -> Unit = {},
     hasStatus: Boolean = false,
     status: String = "",
     readOnlyStateInitial: Boolean = true
@@ -205,8 +205,6 @@ fun BaseListItemPreviewBase() {
         text = "Test",
         editable = true,
         deletable = true,
-        onEdit = { _, _ -> },
-        onDelete = {},
         labelText = "Label",
         readOnlyStateInitial = true
     )
@@ -219,8 +217,6 @@ fun BaseListItemPreviewOnEdit() {
         text = "Test",
         editable = true,
         deletable = true,
-        onEdit = { _, _ -> },
-        onDelete = {},
         labelText = "Label",
         readOnlyStateInitial = false
     )
@@ -233,8 +229,6 @@ fun BaseListItemPreviewBaseWithStatus() {
         text = "Test",
         editable = true,
         deletable = true,
-        onEdit = { _, _ -> },
-        onDelete = {},
         labelText = "Label",
         hasStatus = true,
         status = "Status",
@@ -249,8 +243,6 @@ fun BaseListItemPreviewWithStatusOnEdit() {
         text = "Test",
         editable = true,
         deletable = true,
-        onEdit = { _, _ -> },
-        onDelete = {},
         labelText = "Label",
         hasStatus = true,
         status = "Status",
