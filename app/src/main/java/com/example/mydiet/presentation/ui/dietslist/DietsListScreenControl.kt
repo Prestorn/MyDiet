@@ -1,5 +1,6 @@
 package com.example.mydiet.presentation.ui.dietslist
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -30,7 +31,7 @@ import com.example.mydiet.presentation.ui.theme.Background
 import com.example.mydiet.presentation.ui.theme.ListItemBackground
 
 @Composable
-fun DietsListScreenControll(
+fun DietsListScreenControl(
     viewModel: DietsListViewModel,
     onListItemClick: (Long) -> Unit
 ) {
@@ -41,7 +42,7 @@ fun DietsListScreenControll(
         listItems = diets,
         onListItemClick = onListItemClick,
         onListItemEdit = { diet -> viewModel.renameDiet(diet) },
-        onListItemDelete = {diet -> viewModel.deleteDiet(diet) },
+        onListItemDelete = { diet -> viewModel.deleteDiet(diet) },
         onAddDiet = { viewModel.createDiet() }
     )
 }
