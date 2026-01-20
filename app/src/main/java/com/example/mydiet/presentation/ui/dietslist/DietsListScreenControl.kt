@@ -1,6 +1,5 @@
 package com.example.mydiet.presentation.ui.dietslist
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -38,7 +37,6 @@ fun DietsListScreenControl(
     val diets by viewModel.diets.collectAsStateWithLifecycle(
         initialValue = emptyList()
     )
-    Log.d("!!!", "Diets: $diets")
     DietsListScreen(
         listItems = diets,
         onListItemClick = onListItemClick,
@@ -116,7 +114,6 @@ fun DietListItem(
     Box(
         modifier = Modifier.clickable(
             onClick = {
-                Log.d("!!!", "DietListItem: $diet")
                 onListItemClick(diet.id)
             },
         )
