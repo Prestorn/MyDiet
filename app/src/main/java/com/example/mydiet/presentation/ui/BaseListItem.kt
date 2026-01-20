@@ -1,10 +1,14 @@
 package com.example.mydiet.presentation.ui
 
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,7 +34,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Transparent
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,8 +64,7 @@ fun BaseListItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 5.dp)
-            .clickable(onClick = onClick),
+            .padding(vertical = 5.dp),
         colors = CardDefaults.cardColors(
             containerColor = ListItemBackground
         ),
@@ -68,41 +73,48 @@ fun BaseListItem(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column (
-                modifier = Modifier.weight(1f)
-            ) {
-                OutlinedTextField(
-                    modifier = Modifier
-                        .padding(
-                            top = if (readOnlyState) 5.dp else 12.dp
+            Box (modifier = Modifier.weight(1f)) {
+                Column {
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .padding(
+                                top = if (readOnlyState) 5.dp else 12.dp
+                            ),
+                        state = textState,
+                        readOnly = readOnlyState,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            unfocusedBorderColor = Transparent,
+                            focusedBorderColor = Transparent,
+                            unfocusedContainerColor = Transparent,
+                            focusedContainerColor = Transparent
                         ),
-                    state = textState,
-                    readOnly = readOnlyState,
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = Transparent,
-                        focusedBorderColor = Transparent,
-                        unfocusedContainerColor = Transparent,
-                        focusedContainerColor = Transparent
-                    ),
-                    label = if (readOnlyState)
-                        null
-                    else {
-                        //TODO посмотреть анимации
-                        { Text(text = labelText) }
-                    },
-                    textStyle = TextStyle(
-                        fontSize = 20.sp
-                    ),
-                    contentPadding = PaddingValues(
-                        top = if (readOnlyState) 14.dp else 0.dp,
-                        start = 10.dp
+                        label = if (readOnlyState)
+                            null
+                        else {
+                            //TODO посмотреть анимации
+                            { Text(text = labelText) }
+                        },
+                        textStyle = TextStyle(
+                            fontSize = 20.sp
+                        ),
+                        contentPadding = PaddingValues(
+                            top = if (readOnlyState) 14.dp else 0.dp,
+                            start = 10.dp
+                        )
                     )
-                )
 
-                if (hasStatus) {
-                    Dropdown(
-                        readOnlyState = readOnlyState,
-                        statusState = statusState
+                    if (hasStatus) {
+                        Dropdown(
+                            readOnlyState = readOnlyState,
+                            statusState = statusState
+                        )
+                    }
+                }
+                if (readOnlyState) {
+                    Box(
+                        modifier = Modifier
+                        .matchParentSize()
+                        .clickable(onClick = onClick)
                     )
                 }
             }
