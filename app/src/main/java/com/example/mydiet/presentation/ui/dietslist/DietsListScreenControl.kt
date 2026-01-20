@@ -38,6 +38,7 @@ fun DietsListScreenControl(
     val diets by viewModel.diets.collectAsStateWithLifecycle(
         initialValue = emptyList()
     )
+    Log.d("!!!", "Diets: $diets")
     DietsListScreen(
         listItems = diets,
         onListItemClick = onListItemClick,
@@ -115,6 +116,7 @@ fun DietListItem(
     Box(
         modifier = Modifier.clickable(
             onClick = {
+                Log.d("!!!", "DietListItem: $diet")
                 onListItemClick(diet.id)
             },
         )
@@ -129,6 +131,7 @@ fun DietListItem(
             onDelete = {
                 onListItemDelete(diet)
             },
+            onClick = { onListItemClick(diet.id) },
             labelText = "Название диеты"
         )
     }
