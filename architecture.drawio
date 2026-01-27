@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2025-12-25T16:24:13.135Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.1.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="jo_t-QwLQgkGhdiU5cVn" version="23.1.5" type="device">
+<mxfile host="Electron" modified="2026-01-20T14:51:12.840Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.1.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="7k3fwODAkoncP08P073N" version="23.1.5" type="device">
   <diagram name="Страница — 1" id="p1Yj8siI-ptfjtAu8Znz">
     <mxGraphModel dx="1134" dy="1899" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -37,10 +37,10 @@
         <mxCell id="z7hOpT-bqz6ovkshUotN-13" value="domainDI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="320" y="1040" width="110" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="z7hOpT-bqz6ovkshUotN-14" value="dataDI" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="z7hOpT-bqz6ovkshUotN-14" value="dataDI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="440" y="1040" width="110" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="z7hOpT-bqz6ovkshUotN-15" value="DietsList" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="z7hOpT-bqz6ovkshUotN-15" value="DietsList" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="290" y="820" width="120" height="190" as="geometry" />
         </mxCell>
         <mxCell id="z7hOpT-bqz6ovkshUotN-17" value="Diet" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -74,7 +74,7 @@
         <mxCell id="z7hOpT-bqz6ovkshUotN-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="z7hOpT-bqz6ovkshUotN-29" target="z7hOpT-bqz6ovkshUotN-15" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="z7hOpT-bqz6ovkshUotN-29" value="DietsListViewModel" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="z7hOpT-bqz6ovkshUotN-29" value="DietsListViewModel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="297" y="750" width="106" height="50" as="geometry" />
         </mxCell>
         <mxCell id="z7hOpT-bqz6ovkshUotN-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="z7hOpT-bqz6ovkshUotN-33" target="z7hOpT-bqz6ovkshUotN-19" edge="1">
@@ -171,7 +171,7 @@
         <mxCell id="z7hOpT-bqz6ovkshUotN-80" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="z7hOpT-bqz6ovkshUotN-62" target="z7hOpT-bqz6ovkshUotN-77" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="z7hOpT-bqz6ovkshUotN-62" value="DietRepository" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+        <mxCell id="z7hOpT-bqz6ovkshUotN-62" value="DietRepository" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="315" y="370" width="120" height="50" as="geometry" />
         </mxCell>
         <mxCell id="z7hOpT-bqz6ovkshUotN-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="z7hOpT-bqz6ovkshUotN-67" target="z7hOpT-bqz6ovkshUotN-41" edge="1">
@@ -219,7 +219,7 @@
         <mxCell id="z7hOpT-bqz6ovkshUotN-72" value="ProductRepository" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
           <mxGeometry x="1250" y="380" width="120" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="z7hOpT-bqz6ovkshUotN-77" value="DietRepositoryImpl" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+        <mxCell id="z7hOpT-bqz6ovkshUotN-77" value="DietRepositoryImpl" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="315" y="240" width="120" height="50" as="geometry" />
         </mxCell>
         <mxCell id="z7hOpT-bqz6ovkshUotN-78" value="CategoryRepositoryImpl" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
