@@ -8,7 +8,6 @@ import com.example.domain.repositories.ProductRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
 import com.example.data.storage.entities.Product as DataProduct
 import com.example.data.storage.models.ProductWithStatus as DataProductWithStatus
 import com.example.domain.models.Product as DomainProduct
