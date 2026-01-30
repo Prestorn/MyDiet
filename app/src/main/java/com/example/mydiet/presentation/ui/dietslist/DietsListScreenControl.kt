@@ -54,53 +54,48 @@ fun DietsListScreen(
     onListItemDelete: (Diet) -> Unit,
     onAddDiet: () -> Unit
 ) {
-    Scaffold(
-        containerColor = Background
-    ) { paddingValues ->
-        Column(
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                start = 10.dp,
+                end = 10.dp,
+                bottom = 5.dp
+            ),
+        horizontalAlignment = Alignment.End
+    ) {
+        LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
+                .weight(1f)
                 .padding(
-                    top = paddingValues.calculateTopPadding(),
-                    bottom = paddingValues.calculateBottomPadding(),
-                    start = 10.dp,
-                    end = 10.dp
-                ),
-            horizontalAlignment = Alignment.End
+                    top = 10.dp,
+                    bottom = 10.dp
+                )
         ) {
-            LazyColumn(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(
-                        top = 10.dp,
-                        bottom = 10.dp
-                    )
-            ) {
-                items(items = listItems, key = { it.id }) {
-                    DietListItem(
-                        diet = it,
-                        onListItemClick = onListItemClick,
-                        onListItemEdit = onListItemEdit,
-                        onListItemDelete = onListItemDelete
-                    )
-                }
-            }
-            IconButton(
-                onClick = { onAddDiet() },
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(ListItemBackground)
-                    .height(50.dp)
-                    .width(50.dp)
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_add),
-                    contentDescription = "Add diet",
-                    modifier = Modifier.fillMaxSize()
+            items(items = listItems, key = { it.id }) {
+                DietListItem(
+                    diet = it,
+                    onListItemClick = onListItemClick,
+                    onListItemEdit = onListItemEdit,
+                    onListItemDelete = onListItemDelete
                 )
             }
         }
-
+        IconButton(
+            onClick = { onAddDiet() },
+            modifier = Modifier
+                .clip(CircleShape)
+                .background(ListItemBackground)
+                .height(50.dp)
+                .width(50.dp)
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_add),
+                contentDescription = "Add diet",
+                modifier = Modifier.fillMaxSize()
+            )
+        }
     }
 }
 
@@ -147,10 +142,14 @@ fun DietsListScreenPreview() {
         Diet(3, "Low fat"),
         Diet(4, "Low sodium")
     )
-    DietsListScreen(
-        listItems = listItems,
-        onListItemClick = {}, onListItemEdit = {}, onListItemDelete = {}, onAddDiet = {}
-    )
+    Scaffold(containerColor = Background) { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues)) {
+            DietsListScreen(
+                listItems = listItems,
+                onListItemClick = {}, onListItemEdit = {}, onListItemDelete = {}, onAddDiet = {}
+            )
+        }
+    }
 }
 
 @Composable
