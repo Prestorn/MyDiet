@@ -26,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mydiet.R
 import com.example.mydiet.presentation.models.Product
 import com.example.mydiet.presentation.models.Status
@@ -43,12 +44,19 @@ fun DietScreenControll (
     viewModel: DietViewModel,
     onStatusClick: (Long) -> Unit
 ) {
-
+    val products by viewModel.products.collectAsStateWithLifecycle()
+    DietScreen(
+        products = products,
+        onStatusClick = onStatusClick,
+        onSearchClick = { name ->
+            viewModel.getProductsLikeName(name)
+        }
+    )
 }
 
 @Composable
 fun DietScreen(
-    products: State<List<Product>>,
+    products: List<Product>,
     onStatusClick: (Long) -> Unit,
     onSearchClick: (String) -> Unit
 ) {
@@ -108,11 +116,10 @@ fun StatusListItem(
 @Composable
 @Preview(showSystemUi = true)
 fun DietScreenPreview() {
-    val products = remember { mutableStateOf(listOf<Product>()) }
     Scaffold(containerColor = Background) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             DietScreen(
-                products = products,
+                products = listOf(),
                 onStatusClick = {},
                 onSearchClick = {},
             )
