@@ -11,17 +11,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 class DietViewModel(
     private val getProductsLikeNameUseCase: GetProductsLikeNameUseCase
 ) : ViewModel() {
     private val _products = MutableStateFlow<List<Product>>(listOf())
     val products : StateFlow<List<Product>> = _products
+    var dietId = 0L
 
     fun getProductsLikeName(name: String) {
         if (name.isNotEmpty()) {
             viewModelScope.launch(Dispatchers.IO) {
-                _products.value = getProductsLikeNameUseCase(name).map { it.toPresentation()}
+                _products.value = getProductsLikeNameUseCase(dietId, name).map { it.toPresentation()}
             }
         } else {
             _products.value = listOf()
