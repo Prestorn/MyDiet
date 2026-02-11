@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,7 +40,7 @@ private val STATUSES_LIST = listOf(
 )
 
 @Composable
-fun DietScreenControll (
+fun DietScreenControll(
     viewModel: DietViewModel,
     onStatusClick: (Long) -> Unit
 ) {
@@ -62,7 +62,8 @@ fun DietScreen(
 ) {
     var showSearchResultState by remember { mutableStateOf(false) }
     val searchNameState = rememberTextFieldState()
-
+    var oldName = ""
+    
     Column(
         modifier = Modifier.padding(horizontal = 10.dp)
     ) {
@@ -75,27 +76,74 @@ fun DietScreen(
                 errorContainerColor = Color.Transparent,
                 disabledContainerColor = Color.Transparent
             ),
-            textStyle = TextStyle(color = White),
-            placeholder = { Text(
-                text = "Поиск продуктов",
-                color = Color.LightGray
-            ) },
+            textStyle = TextStyle(color = Color.White),
+            placeholder = {
+                Text(
+                    text = "Поиск продуктов",
+                    color = Color.LightGray
+                )
+            },
             trailingIcon = {
-                IconButton(onClick = { onSearchClick(searchNameState.text.toString()) } ) {
+                IconButton(
+                    onClick = {
+                        if (oldName != searchNameState.text) {
+                            oldName = searchNameState.text.toString()
+                            onSearchClick(oldName)
+                            showSearchResultState = true
+                        } else {
+                            searchNameState.clearText()
+                            showSearchResultState = false
+                        }
+
+                    }
+                ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_search),
                         contentDescription = "Поиск",
-                        tint = White
+                        tint = if (showSearchResultState) Color.Green else Color.White
                     )
                 }
             }
 
         )
-        LazyColumn(
-            modifier = Modifier.padding(top = 15.dp)
-        ) {
-            items(items = STATUSES_LIST) { status ->
-                StatusListItem(status = status, onClick = onStatusClick)
+        if (showSearchResultState) {
+            val products = listOf(
+                Product(
+                    id = 1,
+                    name = "Продукт 1",
+                    status = STATUSES_LIST[0].name,
+                    categoryId = 1,
+                    dietId = 1
+                ),
+                Product(
+                    id = 1,
+                    name = "Продукт 2",
+                    status = STATUSES_LIST[1].name,
+                    categoryId = 1,
+                    dietId = 1
+                ),
+                Product(
+                    id = 1,
+                    name = "Продукт 3",
+                    status = STATUSES_LIST[2].name,
+                    categoryId = 1,
+                    dietId = 1
+                )
+            )
+            if (products.isEmpty()) {
+                Text(text = "Продукты не найдены")
+            } else {
+                LazyColumn {
+                    items(items = products) {
+                        ProductListItem(product = it)
+                    }
+                }
+            }
+        } else {
+            LazyColumn {
+                items(items = STATUSES_LIST) {
+                    StatusListItem(status = it, onClick = onStatusClick)
+                }
             }
         }
     }
@@ -110,6 +158,22 @@ fun StatusListItem(
         text = status.name,
         labelText = "Статус",
         onClick = { onClick(status.id) }
+    )
+}
+
+@Composable
+fun ProductListItem(
+    product: Product
+) {
+    BaseListItem(
+        text = product.name,
+        labelText = "Название продукта",
+        editable = true,
+        deletable = true,
+        onEdit = { _, _ -> },
+        onDelete = {},
+        hasStatus = true,
+        status = product.status
     )
 }
 
@@ -133,5 +197,19 @@ fun StatusListItemPreview() {
     StatusListItem(
         status = Status(name = "Статус"),
         onClick = {}
+    )
+}
+
+@Composable
+@Preview
+fun ProductListItemPreview() {
+    ProductListItem(
+        product = Product(
+            id = 1,
+            name = "Продукт",
+            status = "Разрешено",
+            categoryId = 1,
+            dietId = 1
+        )
     )
 }
