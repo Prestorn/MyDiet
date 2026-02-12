@@ -65,6 +65,9 @@ dependencies {
 
     val animation_version = "1.6.0"
     implementation("androidx.compose.animation:animation:$animation_version")
+
+    val navigation_version = "2.9.6"
+    implementation("androidx.navigation:navigation-compose:$navigation_version")
     
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
