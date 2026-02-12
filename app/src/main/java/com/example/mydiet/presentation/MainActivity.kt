@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.example.mydiet.presentation.ui.diet.DietScreen
 import com.example.mydiet.presentation.ui.dietslist.DietsListScreenControl
 import com.example.mydiet.presentation.ui.dietslist.DietsListViewModel
 import com.example.mydiet.presentation.ui.theme.Background
@@ -27,9 +28,10 @@ class MainActivity : ComponentActivity() {
                 containerColor = Background
             ) { paddingValues ->
                 Box(modifier = Modifier.padding(paddingValues)) {
-                    DietsListScreenControl(
-                        viewModel = dietsListViewModel,
-                        onListItemClick = { Toast.makeText(this@MainActivity, it.toString(), Toast.LENGTH_SHORT).show() }
+                    DietScreen(
+                        products = listOf(),
+                        onStatusClick = {},
+                        onSearchClick = {}
                     )
                 }
             }
