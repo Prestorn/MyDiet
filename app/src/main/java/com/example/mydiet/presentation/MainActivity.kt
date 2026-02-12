@@ -15,7 +15,7 @@ import com.example.mydiet.presentation.ui.DIETS_SCREEN_ROUTE
 import com.example.mydiet.presentation.ui.DIET_DETAILS_SCREEN_ROUTE
 import com.example.mydiet.presentation.ui.diet.DietScreen
 import com.example.mydiet.presentation.ui.diet.DietViewModel
-import com.example.mydiet.presentation.ui.dietslist.DietsListScreenControl
+import com.example.mydiet.presentation.ui.dietslist.DietsListScreen
 import com.example.mydiet.presentation.ui.dietslist.DietsListViewModel
 import com.example.mydiet.presentation.ui.theme.Background
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.padding(paddingValues)
                 ) {
                     composable(DIETS_SCREEN_ROUTE) {
-                        DietsListScreenControl(
+                        DietsListScreen(
                             viewModel = dietsListViewModel,
                             onListItemClick = {id -> navigateFromDietsListToDietDetails(id, navController)}
                         )

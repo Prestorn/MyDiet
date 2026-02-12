@@ -30,14 +30,14 @@ import com.example.mydiet.presentation.ui.theme.Background
 import com.example.mydiet.presentation.ui.theme.ListItemBackground
 
 @Composable
-fun DietsListScreenControl(
+fun DietsListScreen(
     viewModel: DietsListViewModel,
     onListItemClick: (Long) -> Unit
 ) {
     val diets by viewModel.diets.collectAsStateWithLifecycle(
         initialValue = emptyList()
     )
-    DietsListScreen(
+    DietsListScreenContent(
         listItems = diets,
         onListItemClick = onListItemClick,
         onListItemEdit = { diet -> viewModel.renameDiet(diet) },
@@ -47,7 +47,7 @@ fun DietsListScreenControl(
 }
 
 @Composable
-fun DietsListScreen(
+private fun DietsListScreenContent(
     listItems: List<Diet>,
     onListItemClick: (Long) -> Unit,
     onListItemEdit: (Diet) -> Unit,
@@ -100,7 +100,7 @@ fun DietsListScreen(
 }
 
 @Composable
-fun DietListItem(
+private fun DietListItem(
     diet: Diet,
     onListItemClick: (Long) -> Unit,
     onListItemEdit: (Diet) -> Unit,
@@ -134,7 +134,7 @@ fun DietListItem(
     showBackground = true,
     showSystemUi = true
 )
-fun DietsListScreenPreview() {
+private fun DietsListScreenContentPreview() {
 
     val listItems = listOf(
         Diet(1, "Low fodmap"),
@@ -144,7 +144,7 @@ fun DietsListScreenPreview() {
     )
     Scaffold(containerColor = Background) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            DietsListScreen(
+            DietsListScreenContent(
                 listItems = listItems,
                 onListItemClick = {}, onListItemEdit = {}, onListItemDelete = {}, onAddDiet = {}
             )
@@ -154,7 +154,7 @@ fun DietsListScreenPreview() {
 
 @Composable
 @Preview(showBackground = true, backgroundColor = 0xFF00103A)
-fun DietListItemPreview() {
+private fun DietListItemPreview() {
     DietListItem(
         diet = Diet(1, "Low fodmap"),
         onListItemClick = {},
